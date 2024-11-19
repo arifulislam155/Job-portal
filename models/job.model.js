@@ -1,4 +1,3 @@
-import { application } from "express";
 import mongoose from "mongoose";
 
 const jobSchema = new mongoose.Schema({
@@ -10,16 +9,17 @@ const jobSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    requirments: {
-        type: String,
+    requirements: {
+        type: [String], // Changed to Array of Strings
     },
     salary: {
         type: Number,
-        required: true
+        required: true,
+        min: 0 // Salary cannot be negative
     },
     experienceLevel: {
-    typeL: String,
-    required: true
+        type: String, // Fixed typo
+        required: true
     },
     location: {
         type: String,
@@ -27,26 +27,27 @@ const jobSchema = new mongoose.Schema({
     },
     jobType: {
         type: String,
-        required: true
+        required: true,
+        enum: ['Full-Time', 'Part-Time', 'Contract', 'Internship'] // Restricted to specific values
     },
     position: {
         type: String,
         required: true
     },
     company: {
-        type:mongoose.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'Company',
-        requred:true
+        required: true // Fixed typo
     },
     created_by: {
-        type:mongoose.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'User',
-        requred:true
+        required: true // Fixed typo
     },
     application: [{
-        type:mongoose.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'Application',
     }]
-}, {timestamps:true})
+}, { timestamps: true });
 
 export const Job = mongoose.model('Job', jobSchema);
