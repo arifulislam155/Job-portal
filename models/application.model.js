@@ -16,6 +16,14 @@ const applicationSchema = new mongoose.Schema({
         enum: ['pending', 'accepted', 'rejected'],
         default: 'pending'
     },
-},{timestamps:true});
+}, { timestamps: true });
 
-const Application = mongoose.model('Application', applicationSchema);
+// Add indexes
+applicationSchema.index({ job: 1, applicant: 1 }, { unique: true });
+applicationSchema.index({ job: 1 });
+applicationSchema.index({ applicant: 1 });
+
+// Prevent model recompilation in development
+const Application = mongoose.models.Application || mongoose.model('Application', applicationSchema);
+
+export default Application;

@@ -44,7 +44,7 @@ const jobSchema = new mongoose.Schema({
         ref: 'User',
         required: true // Fixed typo
     },
-    application: [{
+    applications: [{
         type: mongoose.Types.ObjectId,
         ref: 'Application',
     }]
