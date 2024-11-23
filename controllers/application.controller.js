@@ -18,7 +18,7 @@ export const applyJob = async (req, res) => {
 
     if (existingApplication) {
       return res.status(400).json({
-        message: "You have already applied for this jobs",
+        message: "You have already applied for this job",
         success: false,
       });
     }
@@ -61,12 +61,12 @@ export const getAppliedJobs = async (req, res) => {
           options: { sort: { createdAt: -1 } },
         },
       });
-    if (!application) {
-      return res.status(404).json({
-        message: "No application Found",
-        success: false,
-      });
-    }
+      if (application.length === 0) {
+        return res.status(404).json({
+          message: "No applications found",
+          success: false,
+        });
+      }      
     return res.status(200).json({
       application,
       success: true,
@@ -112,7 +112,7 @@ export const updateStatus = async (req, res) => {
   try {
     const { status } = req.body;
     const applicationId = req.params.id;
-    if (!!status) {
+    if (!status) {
       return res.status(404).json({
         message: "Status is Required",
         success: false,
